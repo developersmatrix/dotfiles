@@ -41,6 +41,7 @@ beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
 terminal = "alacritty"
 editor = os.getenv("EDITOR") or "nvim"
 editor_cmd = terminal .. " -e " .. editor
+home = os.getenv("HOME")
 
 beautiful.font          = "sans 8"
 
@@ -215,6 +216,8 @@ awful.keyboard.append_global_keybindings({
               {description = "reload awesome", group = "awesome"}),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit,
               {description = "quit awesome", group = "awesome"}),
+
+
     awful.key({ modkey }, "x",
               function ()
                   awful.prompt.run {
@@ -249,15 +252,38 @@ awful.keyboard.append_global_keybindings({
     awful.key({}, "F12" , function() awful.util.spawn_with_shell("mpc stop", false) end),
     awful.key({}, "F5" , function() awful.util.spawn_with_shell("pamixer -d 2", false) end),
     awful.key({}, "F6" , function() awful.util.spawn_with_shell("pamixer -i 2", false) end),
-    awful.key({}, "F4" , function() 
-                                if is_mute then
-                                    is_mute = false
-                                    awful.util.spawn_with_shell("pamixer -u", false)
-                                else
-                                    is_mute = true
-                                    awful.util.spawn_with_shell("pamixer -m", false)
-                                end
-                        end),
+    awful.key({}, "F4" , 
+    function() 
+            if is_mute then
+                is_mute = false
+                awful.util.spawn_with_shell("pamixer -u", false)
+            else
+                is_mute = true
+                awful.util.spawn_with_shell("pamixer -m", false)
+            end
+    end),
+
+-- Shutdown system now
+    awful.key({ modkey, "Shift"}, "x", 
+    function()
+            awful.spawn("prompt 'Are you sure to shutdown now ?' 'shutdown now' ") end,
+    {description = "Shutdown System", group = "awesome"}),
+--Open Music player ncmpcpp
+    awful.key({ modkey,   }, "v", 
+    function()
+            awful.spawn(terminal .. " -e ncmpcpp") end,
+    {description = "apps", group = "awesome"}),
+
+--Take screenschot of entire dektop
+    awful.key({    }, "Print", 
+    function()
+            awful.spawn("flameshot full -p " ..home.."/pictures/screenshots") end,
+    {description = "Utilities", group = "Screenshots"}),
+--Take screenschot of entire dektop
+    awful.key({modkey,    }, "Print", 
+    function()
+            awful.spawn("flameshot gui")end,
+    {description = "Utilities", group = "Screenshots"}),
 })
 
 -- Tags related keybindings
