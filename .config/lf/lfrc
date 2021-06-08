@@ -153,4 +153,5 @@ map C clear
 map U unselect
 
 
-map win cd /run/media/neo
+map cd cd ~/
+map win cd /mnt/windows/
