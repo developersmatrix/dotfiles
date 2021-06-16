@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# this is script to prompt a dmenu on confirmation of a executed command
+
+
+[ $(echo -e "No\nYes" | dmenu -i -p "$1" ) == "Yes" ] && $2
