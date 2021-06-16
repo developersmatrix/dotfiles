@@ -233,6 +233,9 @@ awful.keyboard.append_global_keybindings({
     awful.key({ modkey }, "p", function() menubar.show() end,
               {description = "show the menubar", group = "launcher"}),
 
+-- clipmenu
+    awful.key({modkey, }, "d" , function() awful.util.spawn("clipmenu -c -l 10", false) end),
+
 --music keys               
     awful.key({}, "F9" , function() awful.util.spawn_with_shell("mpc prev", false) end),
     awful.key({}, "F10" , function()
@@ -616,6 +619,7 @@ awful.spawn.with_shell("picom --experimental-backends &")
 awful.spawn.with_shell("nm-applet &")
 awful.spawn.with_shell("lxsession &")
 awful.spawn.with_shell("mpd &")
+awful.spawn.with_shell("clipmenud &")
 
 
 

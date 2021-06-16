@@ -52,5 +52,6 @@ fi
 # picom --experimental-backends &
 # lxsession &
 # nm-applet &
+# clipmenud &
 exec awesome
 
