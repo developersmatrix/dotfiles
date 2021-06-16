@@ -11,7 +11,7 @@ cmd open ${{
     case $(file --mime-type "$f" -bL) in
         text/*|application/json) $EDITOR "$f";;
         image/*)
-		devour sxiv_folder.sh "$f"
+		devour sxiv_folder "$f"
         ;;
         video/*)
 		devour mpv --really-quiet --msg-level=all=no "$f"
