@@ -19,7 +19,12 @@ local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
+local dpi = beautiful.xresources.apply_dpi
 require("awful.hotkeys_popup.keys")
+
+-- Apply theme variables
+naughty.config.defaults['padding'] = dpi(8)
+naughty.config.spacing = dpi(8)
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -35,7 +40,7 @@ end)
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
-beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
+beautiful.init(gears.filesystem.get_configuration_dir() .. "developersmatrix/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 terminal = "alacritty"
@@ -43,7 +48,7 @@ editor = os.getenv("EDITOR") or "nvim"
 editor_cmd = terminal .. " -e " .. editor
 home = os.getenv("HOME")
 
-beautiful.font          = "sans 8"
+beautiful.font          = "sans 10"
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -52,8 +57,7 @@ beautiful.font          = "sans 8"
 -- However, you can use another modifier like Mod1, but it may interact with others.
 modkey = "Mod4"
 -- }}}
--- add gap around the application window
-beautiful.useless_gap = 3
+
 -- {{{ Menu
 -- Create a launcher widget and a main menu
 myawesomemenu = {
@@ -119,7 +123,7 @@ mytextclock = wibox.widget.textclock()
 
 screen.connect_signal("request::desktop_decoration", function(s)
     -- Each screen has its own tag table.
-    awful.tag({ "", "爵", "", "", "", "6", "7", "8", "9" }, s, awful.layout.layouts[1])
+    awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, awful.layout.layouts[1])
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
@@ -173,14 +177,14 @@ screen.connect_signal("request::desktop_decoration", function(s)
     }
 
     -- Create the wibox
-    s.mywibox = awful.wibar({ position = "top", screen = s })
+    s.mywibox = awful.wibar({ position = "top", screen = s, height = 20, opacity = 0.8})
 
     -- Add widgets to the wibox
     s.mywibox.widget = {
         layout = wibox.layout.align.horizontal,
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
-            mylauncher,
+--            mylauncher,
             s.mytaglist,
             s.mypromptbox,
         },
@@ -218,26 +222,18 @@ awful.keyboard.append_global_keybindings({
               {description = "quit awesome", group = "awesome"}),
 
 
-    awful.key({ modkey }, "x",
-              function ()
-                  awful.prompt.run {
-                    prompt       = "Run Lua code: ",
-                    textbox      = awful.screen.focused().mypromptbox.widget,
-                    exe_callback = awful.util.eval,
-                    history_path = awful.util.get_cache_dir() .. "/history_eval"
-                  }
-              end,
-              {description = "lua execute prompt", group = "awesome"}),
     awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
               {description = "open a terminal", group = "launcher"}),
     awful.key({ modkey,           }, "e", function () awful.spawn("code") end,
               {description = "open vs code", group = "apps"}),
     awful.key({ modkey,           }, "b", function () awful.spawn("firefox") end,
               {description = "open firefox", group = "client"}),
-    awful.key({ modkey },            "r",     function () awful.spawn("dmenu_run -c -l 20 -sb '#00ff87' -sf '#222'") end,
+    awful.key({ modkey },            "r",     function () awful.spawn("dmenu_run -c -l 20  -hp 'thunar,brave,firefox,postman,zeal,gimp,lxappearance,code,virtualbox,mpv,alacritty,nitrogen,pavucontrol'", false) end,
               {description = "dmenu", group = "launcher"}),
     awful.key({ modkey }, "p", function() menubar.show() end,
               {description = "show the menubar", group = "launcher"}),
+
+--music keys               
     awful.key({}, "F9" , function() awful.util.spawn_with_shell("mpc prev", false) end),
     awful.key({}, "F10" , function()
                                 if is_play then
@@ -250,6 +246,8 @@ awful.keyboard.append_global_keybindings({
                             end),
     awful.key({}, "F11" , function() awful.util.spawn_with_shell("mpc next", false) end),
     awful.key({}, "F12" , function() awful.util.spawn_with_shell("mpc stop", false) end),
+
+--volume keys    
     awful.key({}, "F5" , function() awful.util.spawn_with_shell("pamixer -d 2", false) end),
     awful.key({}, "F6" , function() awful.util.spawn_with_shell("pamixer -i 2", false) end),
     awful.key({}, "F4" , 
@@ -268,6 +266,7 @@ awful.keyboard.append_global_keybindings({
     function()
             awful.spawn("prompt 'Are you sure to shutdown now ?' 'shutdown now' ") end,
     {description = "Shutdown System", group = "awesome"}),
+
 --Open Music player ncmpcpp
     awful.key({ modkey,   }, "v", 
     function()
@@ -451,7 +450,7 @@ client.connect_signal("request::default_keybindings", function()
                 c:raise()
             end,
             {description = "toggle fullscreen", group = "client"}),
-        awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end,
+        awful.key({ modkey, }, "x",      function (c) c:kill()                         end,
                 {description = "close", group = "client"}),
         awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ,
                 {description = "toggle floating", group = "client"}),
@@ -586,13 +585,15 @@ end)
 
 -- {{{ Notifications
 
+
+
 ruled.notification.connect_signal('request::rules', function()
     -- All notifications will match this rule.
     ruled.notification.append_rule {
         rule       = { },
-        properties = {
+      properties = {
             screen           = awful.screen.preferred,
-            implicit_timeout = 5,
+          implicit_timeout = 5,
         }
     }
 end)
@@ -600,6 +601,8 @@ end)
 naughty.connect_signal("request::display", function(n)
     naughty.layout.box { notification = n }
 end)
+
+
 
 -- }}}
 

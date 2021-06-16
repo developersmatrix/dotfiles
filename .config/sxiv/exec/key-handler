@@ -2,7 +2,7 @@
 while read file
     do
         case "$1" in 
-            "w") nitrogen --set-scaled "$file" & ;;
+            "w") nitrogen --save --set-scaled "$file" & ;;
             "d") trash "$file" ;;
         esac
     done
