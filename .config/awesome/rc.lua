@@ -241,7 +241,7 @@ awful.keyboard.append_global_keybindings({
     awful.key({}, "F10" , function()
                                 if is_play then
                                     is_play = false
-                                    awful.util.spawn_with_shell("mpc pause",false) 
+                                    awful.util.spawn_with_shell("mpc pause && notify-send 'Paused' 'mpc -f [%title%]'",false) 
                                 else 
                                     is_play = true
                                     awful.util.spawn_with_shell("mpc play",false)
@@ -614,12 +614,12 @@ client.connect_signal("mouse::enter", function(c)
     c:activate { context = "mouse_enter", raise = false }
 end)
 
-awful.spawn.with_shell("nitrogen --restore &")
-awful.spawn.with_shell("picom --experimental-backends &")
-awful.spawn.with_shell("nm-applet &")
-awful.spawn.with_shell("lxsession &")
-awful.spawn.with_shell("mpd &")
-awful.spawn.with_shell("clipmenud &")
+--awful.spawn.with_shell("nitrogen --restore &")
+--awful.spawn.with_shell("picom --experimental-backends &")
+--awful.spawn.with_shell("nm-applet &")
+--awful.spawn.with_shell("lxsession &")
+--awful.spawn.with_shell("mpd &")
+--awful.spawn.with_shell("clipmenud &")
 
 
 
