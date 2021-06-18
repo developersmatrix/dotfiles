@@ -154,4 +154,4 @@ map U unselect
 
 
 map cd cd ~/
-map win cd /mnt/windows/
+map wi cd /mnt/windows/
