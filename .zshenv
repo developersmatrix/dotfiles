@@ -197,6 +197,7 @@ ex=:\
 export CM_SELECTIONS="clipboard"
 export CM_OUTPUT_CLIP=0
 export CM_MAX_CLIPS=10
+export CM_HISTLENGTH=10
 
 
 # Start blinking
