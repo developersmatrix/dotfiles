@@ -529,7 +529,7 @@ ruled.client.connect_signal("request::rules", function()
 
     -- Set Firefox to always map on the tag named "2" on screen 1.
     ruled.client.append_rule {
-        rule       = { class = "Brave"     },
+        rule       = { class = { "Brave", "thunar" }    },
     --     properties = { screen = 1, tag = "2", floating = false }
         properties = { opacity = 1, maximized = false } 
     }

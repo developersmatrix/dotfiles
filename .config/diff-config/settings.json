@@ -1,0 +1,12 @@
+{
+    "workbench.startupEditor": "none",
+    "editor.fontFamily": "source code pro",
+    "editor.fontSize": 15,
+    "editor.fontLigatures": true,
+    "workbench.settings.useSplitJSON": true,
+    "workbench.settings.editor": "json",
+    "files.autoSave": "onFocusChange",
+    "editor.formatOnSave": true,
+    "terminal.integrated.fontFamily": "source code pro",
+    "terminal.integrated.fontSize": 15
+}
